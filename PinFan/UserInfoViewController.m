@@ -9,6 +9,7 @@
 #import "UserInfoViewController.h"
 #import "ShopInfoViewController.h"
 #import "MyAccountViewController.h"
+#import "SelectViewController.h"
 @interface UserInfoViewController ()
 {
     NSArray *titles;
@@ -19,6 +20,10 @@
     NSString *payState;
     NSString *payBtntitle;
     int payStateInt;
+    NSString *sexStr;
+    NSString *marital;
+    int isSelfSex;
+    
 }
 @end
 
@@ -229,7 +234,7 @@
     if (cell == nil) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellInfier];
     }
-
+    
     // cell控件
     UIImageView *userImg = [[UIImageView alloc] init];
     UILabel *subTitleLabel = [[UILabel alloc] init];
@@ -248,37 +253,25 @@
             }// 头像
             else if (indexPath.row == 1)
             {
-                subTitleLabel.frame = CGRectMake(ScreenWidth*0.25, 5, ScreenWidth-ScreenWidth*0.2-10, 40);
+                subTitleLabel.frame = CGRectMake(ScreenWidth*0.28, 5, ScreenWidth-ScreenWidth*0.2-10, 40);
                 subTitleLabel.text = @"测试";
                 [cell.contentView addSubview:subTitleLabel];
             }//用户昵称
             else if (indexPath.row == 2)
             {
-                for (int i = 0; i<2; i++) {
-                    UIButton *cellBtn = [[UIButton alloc] init];
-                    UILabel *btnLabel = [[UILabel alloc] initWithFrame:CGRectMake(ScreenWidth*0.25*(i+1)+30, 10, 25, 25)];
-                    btnLabel.tintColor = [UIColor blackColor];
-                    switch (i) {
-                        case 0:
-                        {
-                            btnLabel.text = @"男";
-                        }
-                            break;
-                        case 1:
-                        {
-                            btnLabel.text = @"女";
-                        }
-                            break;
-                        default:
-                            break;
+                subTitleLabel = [[UILabel alloc] initWithFrame:CGRectMake(ScreenWidth*0.28, 2, ScreenWidth-ScreenWidth*0.2-10, 40)];
+                if (sexStr.length != 0) {
+                    if (isSelfSex == 1)
+                    {
+                        subTitleLabel.text = sexStr;
                     }
-                    cellBtn.frame = CGRectMake(ScreenWidth*0.25*(i+1), 10, 20, 20);
-                    [cellBtn setImage:[UIImage imageNamed:@"validUnselect"] forState:UIControlStateNormal];
-                    cellBtn.selected = NO;
-                    [cellBtn addTarget:self action:@selector(clickOn:) forControlEvents:UIControlEventTouchUpInside];
-                    [cell.contentView addSubview:btnLabel];
-                    [cell.contentView addSubview:cellBtn];
+
                 }
+                else
+                {
+                    subTitleLabel.text = @"请选择你的性别";
+                }
+                [cell.contentView addSubview:subTitleLabel];
             }// 性别
             else if (indexPath.row == 3)
             {
@@ -297,6 +290,8 @@
                 getBtn.layer.borderColor = [UIColor lightGrayColor].CGColor;
                 getBtn.layer.borderWidth = 0.5;
                 [getBtn addTarget:self action:@selector(getCode:) forControlEvents:UIControlEventTouchUpInside];
+                
+//                NSLog(@"six %@",testStr);
                 [cell.contentView addSubview:getBtn];
                 
             }// 手机号码
@@ -321,34 +316,20 @@
             }// 我的年龄
             else if (indexPath.row == 6)
             {
-                for (int i = 0; i<3; i++) {
-                    UIButton *cellBtn = [[UIButton alloc] init];
-                    UILabel *btnLabel = [[UILabel alloc] initWithFrame:CGRectMake(ScreenWidth*0.28*(i+1)+15, 10, 40, 25)];
-                    btnLabel.tintColor = [UIColor blackColor];
-                    switch (i) {
-                        case 0:
-                        {
-                            btnLabel.text = @"未婚";
-                        }
-                            break;
-                        case 1:
-                        {
-                            btnLabel.text = @"已婚";
-                        }
-                            break;
-                        case 2:
-                        {
-                            btnLabel.text = @"离异";
-                        }
-                            break;
+                subTitleLabel = [[UILabel alloc] initWithFrame:CGRectMake(ScreenWidth*0.28, 2, ScreenWidth-ScreenWidth*0.2-10, 40)];
+                if (marital.length != 0) {
+                    if (isSelfSex == 0)
+                    {
+                        subTitleLabel.text = marital;
                     }
-                    cellBtn.frame = CGRectMake(ScreenWidth*0.27*(i+1), 10, 20, 20);
-                    [cellBtn setImage:[UIImage imageNamed:@"validUnselect"] forState:UIControlStateNormal];
-                    [cellBtn addTarget:self action:@selector(clickOn:) forControlEvents:UIControlEventTouchUpInside];
-                    [cell.contentView addSubview:btnLabel];
-                    [cell.contentView addSubview:cellBtn];
                 }
-                
+                else
+                {
+                    subTitleLabel.text = @"请选择你的婚姻状况";
+                }
+
+//                subTitleLabel.text = @"请选择你的婚姻状况";
+                [cell.contentView addSubview:subTitleLabel];
             }// 婚姻状况
             cell.textLabel.text = titles[0][indexPath.row];
         }
@@ -506,7 +487,19 @@
     return cell;
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    switch (self.infostate) {
+    NSLog(@"%@",indexPath);
+    switch (indexPath.section) {
+        case 0:
+        {
+            
+        }
+            break;
+            
+        default:
+            break;
+    }
+    switch (self.infostate)
+    {
         case infoOfAccount:
         {
             MyAccountViewController *myAccountVC = [[MyAccountViewController alloc] init];
@@ -539,8 +532,28 @@
             [self.navigationController pushViewController:myAccountVC animated:YES];
         }
             break;
-        default:
+        case infoOfUserInfo:
+        {
+            if (indexPath.row == 2)
+            {
+                
+                [self pushAddVC:YES];
+                
+            }
+            if (indexPath.row == 6)
+            {
+                
+                [self pushAddVC:NO];
+                
+            }
+           
+        }
             break;
+            
+        default:
+
+            break;
+            
     }
 }
 #pragma mark - btnAction
@@ -599,5 +612,26 @@
     [self.tableView endEditing:YES];
     NSLog(@"clickOntableView");
 }
-
+- (void)pushAddVC:(BOOL)isMaritalorSix
+{
+    SelectViewController *selectVC = [[SelectViewController alloc] initWithNibName:@"SelectViewController" bundle:nil];
+    selectVC.isMaritalorSix = isMaritalorSix;
+    [self.navigationController pushViewController:selectVC animated:YES];
+    selectVC.block = ^(NSString *str,BOOL isSex){
+        sexStr = str;
+        NSLog(@"%@ %d",sexStr,isSex);
+        
+        if (isSex == 1) {
+            sexStr = str;
+            isSelfSex = 1;
+        }
+        else if(isSex == 0)
+        {
+            marital = str;
+            isSelfSex = 0;
+        }
+        [self.tableView reloadData];
+        
+    };
+}
 @end

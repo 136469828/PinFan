@@ -29,17 +29,20 @@
 - (IBAction)foodBtnAction:(UIButton *)sender {
     SubHomeViewController *subHomeVC = [[SubHomeViewController alloc] init];
     //    subHomeVC.title = @"我的项目";
+    subHomeVC.type = 0;
     subHomeVC.hidesBottomBarWhenPushed = YES;
     [[SubHomeViewController viewController:self].navigationController pushViewController:subHomeVC animated:YES];
 }
 - (IBAction)friendBtn:(UIButton *)sender {
     SubHomeViewController *subHomeVC = [[SubHomeViewController alloc] init];
     //    subHomeVC.title = @"我的项目";
+    subHomeVC.type = 1;
     subHomeVC.hidesBottomBarWhenPushed = YES;
     [[SubHomeViewController viewController:self].navigationController pushViewController:subHomeVC animated:YES];
 }
 - (IBAction)eventBtnAction:(UIButton *)sender {
     SubHomeViewController *subHomeVC = [[SubHomeViewController alloc] init];
+    subHomeVC.type = 2;
     //    subHomeVC.title = @"我的项目";
     subHomeVC.hidesBottomBarWhenPushed = YES;
     [[SubHomeViewController viewController:self].navigationController pushViewController:subHomeVC animated:YES];

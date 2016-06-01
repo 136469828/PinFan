@@ -8,32 +8,51 @@
 
 #import "HomeViewController.h"
 #import "SubHomeViewController.h"
-#import "ScrollView.h"
+#import "SDCycleScrollView.h"
+#import "UIImageView+WebCache.h"
 #import "HomeViewTableViewCell.h"
 #import "HomeImgTableViewCell.h"
-@interface HomeViewController ()
+#import "NetManger.h"
+#import "ProjectModel.h"
+@interface HomeViewController ()<UITableViewDelegate,UITableViewDataSource,SDCycleScrollViewDelegate>
 {
-    ScrollView *topScrollView;
+//    ScrollView *topScrollView;
+    NetManger *manger;
 }
 @end
 
 @implementation HomeViewController
-
+// 销毁通知中心
+- (void)dealloc{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     self.navigationItem.title = @"首页";
     [self setTableView];
     [self registerNib];
+    manger= [NetManger shareInstance];
+//    manger.isKeyword = NO;
+    [manger loadData:RequestOfGetlist];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(drawHeardView) name:@"advertise" object:nil];
+}
+- (void)drawHeardView
+{
+    // 网络加载 --- 创建自定义图片的pageControlDot的图片轮播器
+    SDCycleScrollView *cycleScrollView3 = [SDCycleScrollView cycleScrollViewWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight*0.23) delegate:self placeholderImage:[UIImage imageNamed:@"placeholder"]];
+    cycleScrollView3.currentPageDotImage = [UIImage imageNamed:@"pageControlCurrentDot"];
+    cycleScrollView3.pageDotImage = [UIImage imageNamed:@"pageControlDot"];
+    NSArray *arr = manger.m_imgArr;
+    cycleScrollView3.imageURLStringsGroup = arr;
+    _tableView.tableHeaderView = cycleScrollView3;
 }
 - (void)setTableView{
-    _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight) style:UITableViewStyleGrouped];
+    _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight) style:UITableViewStylePlain];
     _tableView.delegate     = self;
     _tableView.dataSource   = self;
+
     [self.view addSubview:_tableView];
-    
-    topScrollView = [[ScrollView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight*0.2)];
-    self.tableView.tableHeaderView = topScrollView;
     
 }
 
@@ -59,6 +78,7 @@
     // Pass the selected object to the new view controller.
 }
 */
+
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     return 4;
@@ -79,6 +99,7 @@
     UITableViewCell *cell = nil;
     if (cell == nil) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIndefier];
+        cell.selectionStyle  = UITableViewCellSelectionStyleNone;
     }
     switch (indexPath.row) {
         case 0:

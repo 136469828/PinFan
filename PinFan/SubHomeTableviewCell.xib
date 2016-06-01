@@ -21,7 +21,7 @@
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="红烧大王蛇" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UyW-Dp-FLF">
                         <rect key="frame" x="8" y="144" width="75" height="18"/>
                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="已参加人数: 5人" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MO4-uh-4PE">
@@ -50,6 +50,12 @@
                     <constraint firstAttribute="trailing" secondItem="zpV-JV-YZI" secondAttribute="trailing" constant="8" id="qfO-5N-Rh7"/>
                 </constraints>
             </tableViewCellContentView>
+            <connections>
+                <outlet property="imgV" destination="zpV-JV-YZI" id="tlU-KJ-Yaa"/>
+                <outlet property="priceLab" destination="IGn-8k-Pzw" id="ud1-VI-PyZ"/>
+                <outlet property="subTitleLab" destination="MO4-uh-4PE" id="dIj-H6-92Y"/>
+                <outlet property="titleLab" destination="UyW-Dp-FLF" id="LQp-eA-RWr"/>
+            </connections>
             <point key="canvasLocation" x="380" y="211.5"/>
         </tableViewCell>
     </objects>

@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface HomeViewController : UIViewController<UITableViewDelegate,UITableViewDataSource>
+@interface HomeViewController : UIViewController
 @property (nonatomic, strong) UITableView *tableView;
 
 
